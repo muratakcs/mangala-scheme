@@ -30,13 +30,30 @@
       (distribute board pit player)
       board))
 
+;; Zaman ölçüm fonksiyonu
+(define (timed-choose choose-fn board player)
+  (define t0 (current-process-milliseconds))
+  (define move (choose-fn board player))
+  (define t1 (current-process-milliseconds))
+  (define duration (/ (- t1 t0) 1000.0))
+  (if (> duration 0.05)
+      (begin
+        (display "⚠️  WARNING: Move took too long: ") (display duration) (display "s\\n"))
+      (void))
+  move)
+
+;; Oyun döngüsü
 (define (play-game choose-A choose-B)
   (define (loop board player)
     (if (or (null? (filter (lambda (i) (> (list-ref board i) 0)) (player-range 0)))
             (null? (filter (lambda (i) (> (list-ref board i) 0)) (player-range 1))))
         board
         (let* ((choose (if (= player 0) choose-A choose-B))
-               (move (choose board player))
-               (new-board (make-move board move player)))
-          (loop new-board (opponent player)))))
+               (move (timed-choose choose board player)))
+          (begin
+            (display "Player ") (display player)
+            (display " chooses pit ") (display move) (newline)
+            (define new-board (make-move board move player))
+            (display "Board after move: ") (display new-board) (newline)
+            (loop new-board (opponent player))))))
   (loop (init-board) 0))

@@ -74,6 +74,16 @@ If your function takes longer, it will be disqualified or your score penalized.
 
 This constraint encourages clean, efficient code and discourages brute-force simulations or infinite recursion.
 
+## 🌀 Mangala Game Rules (Simplified)
+
+* The board has **14 pits**: 6 pits + 1 store for each player.
+* Players take turns choosing a **non-empty pit on their side** and distribute the stones one by one **counter-clockwise**.
+* Players **skip the opponent's store** while distributing stones.
+* The game ends when one side has no stones left in their pits.
+* The player with the most stones in their store at the end **wins**.
+
+> Note: Some traditional rules like captures or extra turns are **not implemented** in this version for simplicity.
+
 ## ⚖️ Evaluation Criteria
 
 | Criterion                        | Points  |
